@@ -23,9 +23,16 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.slim.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/raphael/raphael.js",
+              "node_modules/morris.js/morris.js"
+            ]
           },
           "configurations": {
             "production": {

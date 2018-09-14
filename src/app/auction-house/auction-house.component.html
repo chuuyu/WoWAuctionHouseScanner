@@ -1,0 +1,27 @@
+<div *ngIf="item">
+
+  <h1>{{item.name}}</h1>
+  
+  {{dateFile | date:'dd/MM/yyyy hh:mm'}}
+  <div mk-morris-js [options]="chartAreaOptions" [data]="lineChartDatas" type="Area"></div>
+  <div mk-morris-js [options]="chartAreaOptions" [data]="lineChartDatasDetails" type="Area"></div>
+  
+  <table class="table table-bordered table-sm">
+    <thead>
+      <tr>
+        <th>Owner</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let auction of auctionResult">
+        <td>{{auction.owner}}</td>
+        <td>{{auction.quantity}}</td>
+        <td>{{getUnitePrice(auction)/10000}}</td>
+        <td>{{auction.buyout/10000}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

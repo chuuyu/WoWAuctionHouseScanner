@@ -1,0 +1,9 @@
+<input [(ngModel)]="name" placeholder="Name">
+
+<button (click)="onSearch(name)">Search</button>
+
+<ul>
+  <li *ngFor="let item of items" (click)="onSelect(item)">{{item.id}} - {{item.name}}</li>
+</ul>
+
+<app-auction-house [item]="selectedItem"></app-auction-house>

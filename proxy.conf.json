@@ -1,0 +1,20 @@
+{
+  "/wow/*": {
+    "target": "https://eu.api.battle.net",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/auction-data/*": {
+    "target": "http://auction-api-eu.worldofwarcraft.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/search*": {
+    "target": "https://fr.wowhead.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
