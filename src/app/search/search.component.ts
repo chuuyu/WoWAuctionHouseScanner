@@ -16,6 +16,12 @@ export class SearchComponent implements OnInit {
   constructor(private apiService: WowApiService) { }
 
   ngOnInit() {
+    this.apiService.getItems().subscribe((data: any) => {
+      // this.items = data.filter(function (item) {
+      //   return item.name.toLowerCase().indexOf(name.toLowerCase()) > -1;
+      // });
+      this.items = data;
+    });
   }
 
   onSearch(name: string): void {
@@ -26,9 +32,10 @@ export class SearchComponent implements OnInit {
       });
     } else {
       this.apiService.getItems().subscribe((data: any) => {
-        this.items = data.filter(function (item) {
-          return item.name.toLowerCase().indexOf(name.toLowerCase()) > -1;
-        });
+        // this.items = data.filter(function (item) {
+        //   return item.name.toLowerCase().indexOf(name.toLowerCase()) > -1;
+        // });
+        this.items = data;
       });
     }
   }

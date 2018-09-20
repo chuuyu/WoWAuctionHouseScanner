@@ -1,11 +1,21 @@
 <div *ngIf="item">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{item.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{dateFile | date:'dd/MM/yyyy hh:mm'}}</h6>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Min unit price: {{minUnitPrice}}</li>
+        <li class="list-group-item">Avg unit price: {{avgUnitPrice}}</li>
+        <li class="list-group-item">Max unit price: {{maxUnitPrice}}</li>
+      </ul>
+    </div>
+  </div>
 
-  <h1>{{item.name}}</h1>
-  
-  {{dateFile | date:'dd/MM/yyyy hh:mm'}}
+
+
   <div mk-morris-js [options]="chartAreaOptions" [data]="lineChartDatas" type="Area"></div>
   <div mk-morris-js [options]="chartAreaOptions" [data]="lineChartDatasDetails" type="Area"></div>
-  
+
   <table class="table table-bordered table-sm">
     <thead>
       <tr>

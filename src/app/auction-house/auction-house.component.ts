@@ -23,6 +23,10 @@ export class AuctionHouseComponent implements OnChanges, OnInit {
   lineChartDatasDetails: any[];
   dateFile: number;
 
+  minUnitPrice: number;
+  avgUnitPrice: number;
+  maxUnitPrice: number;
+
   chartAreaOptions = {
     xkey: 'y',
     ykeys: ['a'],
@@ -44,7 +48,7 @@ export class AuctionHouseComponent implements OnChanges, OnInit {
   }
 
   getAuctionFiles(item: Item): void {
-    this.apiService.getAuctionsFiles('hyjal', 'fr_FR').subscribe((data: any) => {
+    this.apiService.getAuctionsFiles('ysondre', 'fr_FR').subscribe((data: any) => {
       if (data !== undefined) {
         this.getAuctionFromFile(data, item);
       } else {
@@ -57,7 +61,7 @@ export class AuctionHouseComponent implements OnChanges, OnInit {
     this.dateFile = apiResult.files[0].lastModified;
     this.apiService.getAuctions(apiResult.files[0].url).subscribe((data: AuctionsResult) => {
       this.auctionResult = data.auctions.filter(function (result) {
-        return result.item === this.item.id && result.buyout !== 0;
+      return result.item === item.id && result.buyout !== 0;
       });
 
       // You'll have to wait that changeDetection occurs and projects data into
@@ -69,6 +73,24 @@ export class AuctionHouseComponent implements OnChanges, OnInit {
       this.dataTable = table.DataTable();
       this.getLineChart();
       this.getDetailsLineChart();
+
+
+      this.minUnitPrice = this.auctionResult.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
+        return (prev < current) ? prev : current;
+      });
+
+      this.maxUnitPrice = this.auctionResult.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
+        return (prev > current) ? prev : current;
+      });
+
+      const totalBuyout = this.auctionResult.map(o => o.buyout).reduce(function (prev, current) {
+        return prev + current;
+      });
+      const totalQte = this.auctionResult.map(o => o.quantity).reduce(function (prev, current) {
+        return prev + current;
+      });
+      this.avgUnitPrice = totalBuyout / totalQte / 10000;
+
     });
   }
 
@@ -87,6 +109,22 @@ export class AuctionHouseComponent implements OnChanges, OnInit {
       this.dataTable = table.DataTable();
       this.getLineChart();
       this.getDetailsLineChart();
+
+      this.minUnitPrice = this.auctionResult.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
+        return (prev < current) ? prev : current;
+      });
+
+      this.maxUnitPrice = this.auctionResult.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
+        return (prev > current) ? prev : current;
+      });
+
+      const totalBuyout = this.auctionResult.map(o => o.buyout).reduce(function (prev, current) {
+        return prev + current;
+      });
+      const totalQte = this.auctionResult.map(o => o.quantity).reduce(function (prev, current) {
+        return prev + current;
+      });
+      this.avgUnitPrice = totalBuyout / totalQte / 10000;
     });
   }
 

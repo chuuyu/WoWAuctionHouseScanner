@@ -1,3 +1,14 @@
 [
-    {"id":162515, "name":"saumon de minuit"}
+    {"id":162515, "name":"saumon de minuit"},
+    {"id":152549, "name":"loche à caudale rouge"},
+    {"id":152545, "name":"crocs-pointus frénétique"},
+    {"id":156526, "name":"festin abondant du capitaine"},
+    {"id":154897, "name":"filets filandreux"},
+    {"id":154898, "name":"cuissot charnu"},
+    {"id":163131, "name":"Raie de la Grande mer"},
+    {"id":152543, "name":"Sand Shifter"},
+    {"id":152544, "name":"Slimy Mackerel"},
+    {"id":152546, "name":"Lane Snapper"},
+    {"id":152547, "name":"Great Sea Catfish"},
+    {"id":152548, "name":"Tiragarde Perch"}
 ]

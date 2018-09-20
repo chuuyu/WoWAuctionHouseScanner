@@ -13,13 +13,16 @@ import { SearchComponent } from './search/search.component';
 import { MessageService } from './message.service';
 import { WowApiService } from './wow-api.service';
 import { AuctionHouseComponent } from './auction-house/auction-house.component';
+import { AppRoutingModule } from './app-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    AuctionHouseComponent
+    AuctionHouseComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { AuctionHouseComponent } from './auction-house/auction-house.component';
     HttpModule,
     FormsModule,
     HttpClientModule,
-    MorrisJsModule
+    MorrisJsModule,
+    AppRoutingModule
   ],
   providers: [MessageService, WowApiService],
   bootstrap: [AppComponent]
