@@ -1,3 +1,18 @@
-<p>
-  dashboard works!
-</p>
+<div *ngIf="items">
+  <h6>Last scan : {{dateFile | date:'dd/MM/yyyy hh:mm'}}</h6>
+  <hr />
+  <div class="row">
+    <div class="col-3" *ngFor="let item of items">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title"><img src="https://wow.zamimg.com/images/wow/icons/medium/{{item.img}}.jpg"> {{item.name}}</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Min unit price: {{item.minBuyout| number:'1.0-2'}}</li>
+            <li class="list-group-item">Avg unit price: {{item.avgBuyout| number:'1.0-2'}}</li>
+            <li class="list-group-item">Max unit price: {{item.maxBuyout| number:'1.0-2'}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

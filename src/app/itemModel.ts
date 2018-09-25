@@ -6,4 +6,5 @@ export class Item {
     maxBuyout: number;
     qteItems: number;
     qteAuctions: number;
+    img: string;
 }
