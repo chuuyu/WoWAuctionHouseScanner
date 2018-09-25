@@ -8,21 +8,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { MorrisJsModule } from 'angular-morris-js';
 
 import { AppComponent } from './app.component';
-import { SearchComponent } from './search/search.component';
 
 import { MessageService } from './message.service';
 import { WowApiService } from './wow-api.service';
-import { AuctionHouseComponent } from './auction-house/auction-house.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AuctionDetailsComponent } from './auction-details/auction-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent,
-    AuctionHouseComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavbarComponent,
+    AuctionDetailsComponent
   ],
   imports: [
     BrowserModule,

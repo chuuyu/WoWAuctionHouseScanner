@@ -5,6 +5,9 @@ export class Item {
     avgBuyout: number;
     maxBuyout: number;
     qteItems: number;
+    qteItemsUnderkMarket: number;
     qteAuctions: number;
+    qteAuctionsUnderMarket: number;
+    marketPrice: number;
     img: string;
 }

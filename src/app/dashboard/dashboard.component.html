@@ -5,11 +5,13 @@
     <div class="col-3" *ngFor="let item of items">
       <div class="card">
         <div class="card-body">
-          <h6 class="card-title"><img src="https://wow.zamimg.com/images/wow/icons/medium/{{item.img}}.jpg"> {{item.name}}</h6>
+          <h6 class="card-title" routerLink="/auctions/{{item.id}}"><img src="https://wow.zamimg.com/images/wow/icons/medium/{{item.img}}.jpg"> {{item.name}}</h6>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Min unit price: {{item.minBuyout| number:'1.0-2'}}</li>
-            <li class="list-group-item">Avg unit price: {{item.avgBuyout| number:'1.0-2'}}</li>
             <li class="list-group-item">Max unit price: {{item.maxBuyout| number:'1.0-2'}}</li>
+            <li class="list-group-item">Market unit price: {{item.marketPrice| number:'1.0-2'}}</li>
+            <li class="list-group-item">Auc under market: {{item.qteAuctionsUnderMarket}}/{{item.qteAuctions}}</li>
+            <li class="list-group-item">Qte under market: {{item.qteItemsUnderkMarket}}/{{item.qteItems}}</li>
           </ul>
         </div>
       </div>

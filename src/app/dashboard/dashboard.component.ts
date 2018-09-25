@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WowApiService } from '../wow-api.service';
+import { AuctionService } from '../auction.service';
 import { ApiResult, File, AuctionsResult, Auction } from '../auctionModel';
 import { Item } from '../itemModel';
 
@@ -13,13 +14,12 @@ export class DashboardComponent implements OnInit {
   items: Item[];
   dateFile: number;
 
-  constructor(private apiService: WowApiService) { }
+  constructor(private apiService: WowApiService, private auctionService: AuctionService) { }
 
   ngOnInit() {
     this.apiService.getItems().subscribe((itemsFocus: Item[]) => {
       this.items = itemsFocus;
       this.apiService.getAuctionsFiles('ysondre', 'fr_FR').subscribe((data: any) => {
-        console.log(data);
         if (data !== undefined) {
           this.getAuctionFromFile(data);
         } else {
@@ -32,28 +32,8 @@ export class DashboardComponent implements OnInit {
   getAuctionFromFile(apiResult: ApiResult): void {
     this.dateFile = apiResult.files[0].lastModified;
     this.apiService.getAuctions(apiResult.files[0].url).subscribe((auctionResult: AuctionsResult) => {
-
-
       this.items.forEach(element => {
-        const auctionsForItem = auctionResult.auctions.filter(function (result) {
-          return result.item === element.id && result.buyout !== 0;
-        });
-
-        element.minBuyout = auctionsForItem.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
-          return (prev < current) ? prev : current;
-        });
-
-        element.maxBuyout = auctionsForItem.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
-          return (prev > current) ? prev : current;
-        });
-
-        const totalBuyout = auctionsForItem.map(o => o.buyout).reduce(function (prev, current) {
-          return prev + current;
-        });
-        element.qteItems = auctionsForItem.map(o => o.quantity).reduce(function (prev, current) {
-          return prev + current;
-        });
-        element.avgBuyout = totalBuyout / element.qteItems / 10000;
+        this.auctionService.computeItemData(element, auctionResult.auctions);
       });
     });
   }
@@ -61,25 +41,7 @@ export class DashboardComponent implements OnInit {
   getAuctionFromStaticFile(): void {
     this.apiService.getAuctionsFromStatic().subscribe((auctionResult: AuctionsResult) => {
       this.items.forEach(element => {
-        const auctionsForItem = auctionResult.auctions.filter(function (result) {
-          return result.item === element.id && result.buyout !== 0;
-        });
-
-        element.minBuyout = auctionsForItem.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
-          return (prev < current) ? prev : current;
-        });
-
-        element.maxBuyout = auctionsForItem.map(o => o.buyout / o.quantity / 10000).reduce(function (prev, current) {
-          return (prev > current) ? prev : current;
-        });
-
-        const totalBuyout = auctionsForItem.map(o => o.buyout).reduce(function (prev, current) {
-          return prev + current;
-        });
-        element.qteItems = auctionsForItem.map(o => o.quantity).reduce(function (prev, current) {
-          return prev + current;
-        });
-        element.avgBuyout = totalBuyout / element.qteItems / 10000;
+        this.auctionService.computeItemData(element, auctionResult.auctions);
       });
     });
   }

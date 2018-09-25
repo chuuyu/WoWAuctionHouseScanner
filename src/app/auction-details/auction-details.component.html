@@ -1,0 +1,45 @@
+<h6>Auctions details {{dateFile | date:'dd/MM/yyyy hh:mm'}}</h6>
+<hr />
+<div *ngIf="item">
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title"><img src="https://wow.zamimg.com/images/wow/icons/medium/{{item.img}}.jpg">
+                        {{item.name}}</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Min unit price: {{item.minBuyout| number:'1.0-2'}}</li>
+                        <li class="list-group-item">Max unit price: {{item.maxBuyout| number:'1.0-2'}}</li>
+                        <li class="list-group-item">Market unit price: {{item.marketPrice| number:'1.0-2'}}</li>
+                        <li class="list-group-item">Auc under market:
+                            {{item.qteAuctionsUnderMarket}}/{{item.qteAuctions}}</li>
+                        <li class="list-group-item">Qte under market: {{item.qteItemsUnderkMarket}}/{{item.qteItems}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div mk-morris-js [options]="chartAreaOptions" [data]="auctionsChartData" type="Area"></div>
+        </div>
+    </div>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <th>Time left</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let auction of auctionResult">
+                <td>{{auction.owner}}</td>
+                <td>{{auction.quantity}}</td>
+                <td>{{auction.buyout/auction.quantity/10000}}</td>
+                <td>{{auction.buyout/10000}}</td>
+                <td>{{auction.timeLeft}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

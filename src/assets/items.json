@@ -10,5 +10,6 @@
     {"id":152544, "name":"Slimy Mackerel", "img":"inv_fishing_slimymackerel"},
     {"id":152546, "name":"Lane Snapper", "img":"inv_fishing_lanesnapper"},
     {"id":152547, "name":"Great Sea Catfish", "img":"inv_fishing_greatseacatfish"},
-    {"id":152548, "name":"Tiragarde Perch", "img":"inv_fishing_tiragardeperch"}
+    {"id":152548, "name":"Tiragarde Perch", "img":"inv_fishing_tiragardeperch"},
+    {"id":152510, "name":"Anchor Weed", "img":"inv_misc_herb_anchorweed"}
 ]
