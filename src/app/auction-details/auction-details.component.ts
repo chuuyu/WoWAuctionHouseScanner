@@ -4,6 +4,7 @@ import { WowApiService } from '../wow-api.service';
 import { AuctionService } from '../auction.service';
 import { Item } from '../itemModel';
 import { ApiResult, File, AuctionsResult, Auction } from '../auctionModel';
+import { DbApiService } from '../db-api.service';
 
 import * as $ from 'jquery';
 import 'datatables.net';
@@ -26,8 +27,7 @@ export class AuctionDetailsComponent implements OnInit {
   chartAreaOptions = {
     xkey: 'y',
     ykeys: ['a'],
-    labels: ['quantity'],
-    xLabelFormat: function (x) {return x.src.y + ' po'; },
+    labels: ['po'],
     resize: true,
     parseTime: false
   };
@@ -35,16 +35,15 @@ export class AuctionDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private apiService: WowApiService,
     private auctionService: AuctionService,
-    private chRef: ChangeDetectorRef) { }
+    private chRef: ChangeDetectorRef,
+    private dbService: DbApiService) { }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.apiService.getItems().subscribe((itemsFocus: Item[]) => {
-      this.item = itemsFocus.filter(function (o) {
-        return o.id === id;
-      })[0];
 
-      this.apiService.getAuctionsFiles('ysondre', 'fr_FR').subscribe((data: any) => {
+    this.dbService.getItemById(id).subscribe((result: Item) => {
+      this.item = result;
+      this.apiService.getAuctionsFiles('ysondre', 'fr_FR').subscribe((data: ApiResult) => {
         if (data !== undefined) {
           this.getAuctionFromFile(data);
         } else {
@@ -56,8 +55,19 @@ export class AuctionDetailsComponent implements OnInit {
 
 
   getAuctionFromFile(apiResult: ApiResult): void {
-    this.dateFile = apiResult.files[0].lastModified;
-    this.apiService.getAuctions(apiResult.files[0].url).subscribe((auctionResult: AuctionsResult) => {
+    apiResult.files.forEach(element => {
+      this.dbService.getAuctionsFilesByLastModified(element.lastModified).subscribe((files: File[]) => {
+        if (files === undefined || files.length === 0) {
+          this.dbService.createAuctionsFiles(element).subscribe();
+        }
+      });
+    });
+    const auctionFile = apiResult.files[apiResult.files.length - 1];
+
+
+    this.dateFile = auctionFile.lastModified;
+    console.log(this.dateFile);
+    this.apiService.getAuctions(auctionFile.url).subscribe((auctionResult: AuctionsResult) => {
 
       this.auctionService.computeItemData(this.item, auctionResult.auctions);
       const itemId = this.item.id;
@@ -72,7 +82,8 @@ export class AuctionDetailsComponent implements OnInit {
       // Now you can use jQuery DataTables :
       const table: any = $('table');
       this.dataTable = table.DataTable();
-      this.getDetailsLineChart();
+      // this.getDetailsLineChart();
+      this.getAreaChartForMultipleFiles();
 
     });
   }
@@ -110,6 +121,46 @@ export class AuctionDetailsComponent implements OnInit {
 
     this.auctionsChartData = mapped.sort(function (a, b) { return (+a.y > +b.y) ? 1 : ((+b.y > +a.y) ? -1 : 0); });
 
+  }
+
+  getAreaChartForMultipleFiles(): void {
+    this.dbService.getAllAuctionsFiles().subscribe((files: File[]) => {
+      const last3Files = files.filter(function (file, index) {
+        return index >= files.length - 3;
+      });
+
+      this.chartAreaOptions['ykeys'] = [];
+      this.auctionsChartData = [];
+
+      last3Files.forEach(file => {
+        console.log(file.lastModified);
+        this.apiService.getAuctions(file.url).subscribe((res: AuctionsResult) => {
+          const auctions = res.auctions.filter(element => {
+            return element.item === this.item.id;
+          });
+
+          const dataByGroupRange = auctions.reduce(function (result, current) {
+            const unitP = Math.round(current.buyout / current.quantity / 10000);
+            result[unitP] = result[unitP] || [];
+            result[unitP].push(current);
+            return result;
+          }, {});
+
+          const chartData = Object.keys(dataByGroupRange).map(key => ({ y: key, [file.lastModified]: dataByGroupRange[key].length }));
+          this.chartAreaOptions['ykeys'].push(file.lastModified.toString());
+
+          chartData.forEach(data => {
+            const existingData = this.auctionsChartData.find(o => o.y === data.y);
+            if (!existingData) {
+              this.auctionsChartData.push(data);
+            } else {
+              Object.assign(existingData, data);
+            }
+          });
+          console.log(this.auctionsChartData);
+        });
+      });
+    });
   }
 
 }

@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuctionDetailsComponent } from './auction-details/auction-details.component';
+import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AuctionDetailsComponent } from './auction-details/auction-details.compo
     AppComponent,
     DashboardComponent,
     NavbarComponent,
-    AuctionDetailsComponent
+    AuctionDetailsComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

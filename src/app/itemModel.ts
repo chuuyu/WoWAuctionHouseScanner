@@ -10,4 +10,5 @@ export class Item {
     qteAuctionsUnderMarket: number;
     marketPrice: number;
     img: string;
+    isFav: boolean;
 }

@@ -2,6 +2,7 @@ export class ApiResult {
     files: File[];
 }
 export class File {
+    id: number;
     url: string;
     lastModified: number;
 }

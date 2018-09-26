@@ -3,6 +3,7 @@ import { WowApiService } from '../wow-api.service';
 import { AuctionService } from '../auction.service';
 import { ApiResult, File, AuctionsResult, Auction } from '../auctionModel';
 import { Item } from '../itemModel';
+import { DbApiService } from '../db-api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,10 @@ export class DashboardComponent implements OnInit {
   items: Item[];
   dateFile: number;
 
-  constructor(private apiService: WowApiService, private auctionService: AuctionService) { }
+  constructor(
+    private apiService: WowApiService,
+    private auctionService: AuctionService,
+    private dbService: DbApiService) { }
 
   ngOnInit() {
     this.apiService.getItems().subscribe((itemsFocus: Item[]) => {
@@ -30,8 +34,17 @@ export class DashboardComponent implements OnInit {
   }
 
   getAuctionFromFile(apiResult: ApiResult): void {
-    this.dateFile = apiResult.files[0].lastModified;
-    this.apiService.getAuctions(apiResult.files[0].url).subscribe((auctionResult: AuctionsResult) => {
+    apiResult.files.forEach(element => {
+      this.dbService.getAuctionsFilesByLastModified(element.lastModified).subscribe((files: File[]) => {
+        if (files === undefined || files.length === 0) {
+          this.dbService.createAuctionsFiles(element).subscribe();
+        }
+      });
+    });
+
+    const auctionFile = apiResult.files[apiResult.files.length - 1];
+    this.dateFile = auctionFile.lastModified;
+    this.apiService.getAuctions(auctionFile.url).subscribe((auctionResult: AuctionsResult) => {
       this.items.forEach(element => {
         this.auctionService.computeItemData(element, auctionResult.auctions);
       });
