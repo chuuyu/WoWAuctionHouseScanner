@@ -1,0 +1,81 @@
+{
+  "items": [
+    {
+      "id": 162515,
+      "name": "Midnight Salmon",
+      "img": "inv_misc_fish_51"
+    },
+    {
+      "id": 152549,
+      "name": "Redtail Loach",
+      "img": "inv_fishing_redtailloach"
+    },
+    {
+      "id": 152545,
+      "name": "Frenzied Fangtooth",
+      "img": "inv_fishing_frenziedfangtooth"
+    },
+    {
+      "id": 156526,
+      "name": "Bountiful Captain's Feast",
+      "img": "inv_cooking_80_majorfeast"
+    },
+    {
+      "id": 154897,
+      "name": "Stringy Loins",
+      "img": "inv_cooking_80_stringyloins"
+    },
+    {
+      "id": 154898,
+      "name": "Meaty Haunch",
+      "img": "inv_cooking_80_meatyhaunch"
+    },
+    {
+      "id": 163131,
+      "name": "Great Sea Ray",
+      "img": "inv_stingray2mount"
+    },
+    {
+      "id": 152543,
+      "name": "Sand Shifter",
+      "img": "inv_fishing_sandshifter"
+    },
+    {
+      "id": 152544,
+      "name": "Slimy Mackerel",
+      "img": "inv_fishing_slimymackerel"
+    },
+    {
+      "id": 152546,
+      "name": "Lane Snapper",
+      "img": "inv_fishing_lanesnapper"
+    },
+    {
+      "id": 152547,
+      "name": "Great Sea Catfish",
+      "img": "inv_fishing_greatseacatfish"
+    },
+    {
+      "id": 152548,
+      "name": "Tiragarde Perch",
+      "img": "inv_fishing_tiragardeperch"
+    },
+    {
+      "id": 152510,
+      "name": "Anchor Weed",
+      "img": "inv_misc_herb_anchorweed"
+    }
+  ],
+  "auctionsFiles": [
+    {
+      "url": "http://auction-api-eu.worldofwarcraft.com/auction-data/676c6ea11d6b2b5f44af97790833bcc5/auctions.json",
+      "lastModified": 1537972287000,
+      "id": 1
+    },
+    {
+      "url": "http://auction-api-eu.worldofwarcraft.com/auction-data/676c6ea11d6b2b5f44af97790833bcc5/auctions.json",
+      "lastModified": 1537985007000,
+      "id": 2
+    }
+  ]
+}
