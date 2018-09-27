@@ -27,7 +27,8 @@ export class AuctionDetailsComponent implements OnInit {
   chartAreaOptions = {
     xkey: 'y',
     ykeys: ['a'],
-    labels: ['po'],
+    labels: ['auctions'],
+    xLabelFormat: function (x) { return x.src.y.toString() + ' po/u'; },
     resize: true,
     parseTime: false
   };
@@ -82,8 +83,7 @@ export class AuctionDetailsComponent implements OnInit {
       // Now you can use jQuery DataTables :
       const table: any = $('table');
       this.dataTable = table.DataTable();
-      // this.getDetailsLineChart();
-      this.getAreaChartForMultipleFiles();
+      this.getDetailsLineChart();
 
     });
   }
@@ -121,46 +121,6 @@ export class AuctionDetailsComponent implements OnInit {
 
     this.auctionsChartData = mapped.sort(function (a, b) { return (+a.y > +b.y) ? 1 : ((+b.y > +a.y) ? -1 : 0); });
 
-  }
-
-  getAreaChartForMultipleFiles(): void {
-    this.dbService.getAllAuctionsFiles().subscribe((files: File[]) => {
-      const last3Files = files.filter(function (file, index) {
-        return index >= files.length - 3;
-      });
-
-      this.chartAreaOptions['ykeys'] = [];
-      this.auctionsChartData = [];
-
-      last3Files.forEach(file => {
-        console.log(file.lastModified);
-        this.apiService.getAuctions(file.url).subscribe((res: AuctionsResult) => {
-          const auctions = res.auctions.filter(element => {
-            return element.item === this.item.id;
-          });
-
-          const dataByGroupRange = auctions.reduce(function (result, current) {
-            const unitP = Math.round(current.buyout / current.quantity / 10000);
-            result[unitP] = result[unitP] || [];
-            result[unitP].push(current);
-            return result;
-          }, {});
-
-          const chartData = Object.keys(dataByGroupRange).map(key => ({ y: key, [file.lastModified]: dataByGroupRange[key].length }));
-          this.chartAreaOptions['ykeys'].push(file.lastModified.toString());
-
-          chartData.forEach(data => {
-            const existingData = this.auctionsChartData.find(o => o.y === data.y);
-            if (!existingData) {
-              this.auctionsChartData.push(data);
-            } else {
-              Object.assign(existingData, data);
-            }
-          });
-          console.log(this.auctionsChartData);
-        });
-      });
-    });
   }
 
 }
